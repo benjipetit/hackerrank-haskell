@@ -21,11 +21,12 @@ where `height = 3`. Because there are 2 such candles, we print `2` on a new
 line.
  -}
 birthdayCakeCandles :: [Int] -> Int
-birthdayCakeCandles ar = snd $ foldr addOrReset (0, 0) ar
-  where 
-    addOrReset el (max, count) | el > max  = (el, 1)
-    addOrReset el (max, count) | el == max = (max, count + 1)
-    addOrReset el (max, count) | otherwise = (max, count)
+birthdayCakeCandles = fst . foldr acc (0, 0)
+  where acc el (count, max) 
+          | el > max  = (1, el)
+          | el == max = (count + 1, max)
+          | otherwise = (count, max)
 
 main :: IO ()
-main = interact $ show . birthdayCakeCandles . map read . words . head . tail . lines
+main = interact $ show . birthdayCakeCandles . map read . words . last . lines
+
